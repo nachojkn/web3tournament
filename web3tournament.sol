@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 ASSUMPTIONS
     - Players don't register twice --> Easy check TODO
     - Tournament legs are decided off-chain --> Can be done on-chain using semi-random numbers (rand) and selecting players using 'players[rand]' for each match
-    - Matchs are played one at a time --> If we trust referee it's easily scalable, otherwise might need to use a mapping relating referee to match created (one referee can't be a two matchs at the same time)
+    - Matchs are played one at a time --> If we trust referee it's easily scalable, otherwise might need to use a mapping  referee => matchCreated (one referee can't be at two matchs at the same time)
     - Referee is owner --> Using Access control we can separate them
     - Owner "declares" the winner --> We trust the owner is going to honor the results of the final
 
@@ -68,7 +68,6 @@ contract web3tournament is Ownable {
     function startTournament() public onlyOwner {
         require(tournament_status == TOURNAMENT_STATUS.NOT_STARTED);
         tournament_status = TOURNAMENT_STATUS.IN_PROGRESS;
-        match_status = MATCH_STATUS.NOT_STARTED;
     }
 
     function amountOfPlayers() public view returns (uint256) {
